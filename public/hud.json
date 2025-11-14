@@ -1,13 +1,13 @@
 {
-    "name":"LHM CS2 Default HUD",
-    "version":"1.0.6",
-    "author":"Lexogrine",
-    "legacy": false,
-    "radar": true,
-    "killfeed": false,
-    "game":"cs2",
-    "boltobserv":{
-        "css":false,
-        "maps":false
-    }
+  "name": "PuntoGamers CEG #4 HUD - Online",
+  "version": "1.0",
+  "author": "EscuderoKevin",
+  "legacy": false,
+  "radar": true,
+  "killfeed": true,
+  "game": "cs2",
+  "boltobserv": {
+    "css": false,
+    "maps": false
+  }
 }

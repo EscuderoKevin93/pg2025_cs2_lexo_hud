@@ -1,10 +1,8 @@
 import * as I from "csgogsi";
+import React, { useState, useEffect, useRef } from "react";
 import Weapon from "./../Weapon/Weapon";
 import Avatar from "./Avatar";
-import Armor from "./../Indicators/Armor";
-import Bomb from "./../Indicators/Bomb";
-import Defuse from "./../Indicators/Defuse";
-import React from "react";
+import { Skull, Headshot, ArmorHelmet, ArmorFull, Defuse, C4 } from "./../../assets/Icons";
 
 interface IProps {
   player: I.Player,
@@ -68,62 +66,182 @@ const arePlayersEqual = (playerOne: I.Player, playerTwo: I.Player) => {
   return false;
 }
 const Player = ({ player, isObserved }: IProps) => {
+  const isDead = player.state.health === 0;
+  const [damageTaken, setDamageTaken] = useState<number | null>(null);
+  const prevHealthRef = useRef<number>(player.state.health);
 
+  // Detectar daño recibido
+  useEffect(() => {
+    const prevHealth = prevHealthRef.current;
+    const currentHealth = player.state.health;
+
+    // Solo mostrar daño si la vida bajó (no si subió por heal)
+    if (prevHealth > currentHealth && currentHealth > 0) {
+      const damage = prevHealth - currentHealth;
+      setDamageTaken(damage);
+      
+      // Limpiar después de la animación
+      setTimeout(() => {
+        setDamageTaken(null);
+      }, 2000);
+    }
+
+    prevHealthRef.current = currentHealth;
+  }, [player.state.health]);
+
+  // Procesar armas
   const weapons = player.weapons.map(weapon => ({ ...weapon, name: weapon.name.replace("weapon_", "") }));
   const primary = weapons.filter(weapon => !['C4', 'Pistol', 'Knife', 'Grenade', undefined].includes(weapon.type))[0] || null;
   const secondary = weapons.filter(weapon => weapon.type === "Pistol")[0] || null;
-  const grenades = weapons.filter(weapon => weapon.type === "Grenade");
-  const isLeft = player.team.orientation === "left";
+  const currentWeapon = primary || secondary;
 
-  const zeus = weapons.find(weapon => weapon.name === "taser");
+  // Procesar granadas (4 tipos: flashbang, smoke, hegrenade, molotov/incgrenade)
+  const grenades = weapons.filter(weapon => weapon.type === "Grenade");
+  const grenadeTypes = ['flashbang', 'smokegrenade', 'hegrenade', 'molotov', 'incgrenade'];
+  
+  const getGrenadeByName = (name: string) => {
+    return grenades.find(g => g.name === name || g.name === `weapon_${name}`);
+  };
+
+  const flashbang = getGrenadeByName('flashbang');
+  const smoke = getGrenadeByName('smokegrenade');
+  const hegrenade = getGrenadeByName('hegrenade');
+  const molotov = getGrenadeByName('molotov') || getGrenadeByName('incgrenade');
+
+  // Verificar si tiene C4
+  const hasC4 = weapons.some(weapon => weapon.type === "C4");
 
   return (
-    <div className={`player ${player.state.health === 0 ? "dead" : ""} ${isObserved ? 'active' : ''}`}>
-      <div className="player_data">
-        <Avatar teamId={player.team.id} steamid={player.steamid} url={player.avatar} height={57} width={57} showSkull={false} showCam={false} sidePlayer={true} />
-        <div className="dead-stats">
-          <div className="labels">
-            <div className="stat-label">K</div>
-            <div className="stat-label">A</div>
-            <div className="stat-label">D</div>
-          </div>
-          <div className="values">
-            <div className="stat-value">{player.stats.kills}</div>
-            <div className="stat-value">{player.stats.assists}</div>
-            <div className="stat-value">{player.stats.deaths}</div>
-          </div>
+    <div className={`player ${isDead ? "dead" : ""} ${isObserved ? 'active' : ''}`}>
+      {/* Indicador de daño recibido */}
+      {damageTaken !== null && (
+        <div className="damage_indicator">
+          -{damageTaken}
         </div>
-        <div className="player_stats">
-          <div className="row">
-            <div className="health">
-              {player.state.health}
+      )}
+      <div className="player_panel">
+        <div className="player_top_section" style={{ '--health-percentage': `${player.state.health}%` } as React.CSSProperties}>
+          {/* Barra de vida de fondo que se vacía desde arriba */}
+          <div className="health_bar_background"></div>
+          
+          {/* Kills de la ronda - arriba lado izquierdo */}
+          {!isDead && player.state.round_kills > 0 && (
+            <div className="round_kills_indicator">
+              <Headshot className="round_kills_icon" />
+              <span className="round_kills_value">{player.state.round_kills}</span>
             </div>
-            <div className="username">
-              <div>{isLeft ? <span>{player.observer_slot}</span> : null} {player.name} {!isLeft ? <span>{player.observer_slot}</span> : null}</div>
-              {primary || secondary ? <Weapon weapon={primary ? primary.name : secondary.name} active={primary ? primary.state === "active" : secondary.state === "active"} /> : ""}
-              {player.state.round_kills ? <div className="roundkills-container">{player.state.round_kills}</div> : null}
-            </div>
+          )}
+
+          {/* Defuse/C4 - arriba lado derecho */}
+          {!isDead && (
+            <>
+              {player.team.side === "CT" && player.state.defusekit && (
+                <div className="defuse_indicator_top">
+                  <Defuse className="defuse_icon_top" />
+                </div>
+              )}
+              {player.team.side === "T" && hasC4 && (
+                <div className="c4_indicator_top">
+                  <C4 className="c4_icon_top" />
+                </div>
+              )}
+            </>
+          )}
+          
+          {/* Nombre del jugador */}
+          <div className="player_name">
+            {player.name.toUpperCase()}
           </div>
-          <div className={`hp_bar ${player.state.health <= 20 ? 'low' : ''}`} style={{ width: `${player.state.health}%` }}></div>
-          <div className="row">
-            <div className="armor_and_utility">
-              <Bomb player={player} />
-              <Armor health={player.state.health} armor={player.state.armor} helmet={player.state.helmet} />
-              <Defuse player={player} />
+          
+          {/* Chaleco y Vida arriba del recuadro negro */}
+          {!isDead && (
+            <div className="health_armor_indicators">
+              {player.state.armor > 0 && (
+                <div className="armor_indicator">
+                  {player.state.helmet ? <ArmorHelmet className="armor_icon" /> : <ArmorFull className="armor_icon" />}
+                </div>
+              )}
+              <div className="health_indicator">
+                <span className="health_value">{player.state.health}</span>
+              </div>
             </div>
-            <div className="money">${player.state.money}</div>
-            {zeus ? <Weapon className={`zeus ${player.team.orientation}`} weapon="taser" active={zeus.state === "active"} /> : null}
-            <div className="grenades">
-              {grenades.map(grenade => (
-                [
-                  <Weapon key={`${grenade.name}-${grenade.state}`} weapon={grenade.name} active={grenade.state === "active"} isGrenade />,
-                  grenade.ammo_reserve === 2 ? <Weapon key={`${grenade.name}-${grenade.state}-double`} weapon={grenade.name} active={false} isGrenade /> : null,
-                ]
-              ))}
-            </div>
-            <div className="secondary_weapon">{primary && secondary ? <Weapon weapon={secondary.name} active={secondary.state === "active"} /> : ""}</div>
-          </div>
-          <div className="active_border"></div>
+          )}
+        </div>
+        
+        {/* Avatar del jugador - fuera de la sección superior para evitar que se corte */}
+        <div className={`avatar_container ${player.state.flashed ? 'flashed' : ''} ${player.state.burning ? 'burning' : ''}`}>
+          <Avatar 
+            teamId={player.team.id} 
+            steamid={player.steamid} 
+            url={player.avatar} 
+            showSkull={false} 
+            showCam={false} 
+            sidePlayer={true} 
+          />
+        </div>
+        <div className="player_bottom_section">
+          {!isDead ? (
+            <>
+              <div className="bottom_top_row">
+                {/* Granadas */}
+                <div className="grenades_container">
+                  {flashbang ? <Weapon weapon={flashbang.name} active={flashbang.state === "active"} isGrenade /> : <div className="grenade_empty">•</div>}
+                  {smoke ? <Weapon weapon={smoke.name} active={smoke.state === "active"} isGrenade /> : <div className="grenade_empty">•</div>}
+                  {molotov ? <Weapon weapon={molotov.name} active={molotov.state === "active"} isGrenade /> : <div className="grenade_empty">•</div>}
+                  {hegrenade ? <Weapon weapon={hegrenade.name} active={hegrenade.state === "active"} isGrenade /> : <div className="grenade_empty">•</div>}
+                </div>
+                {/* Arma */}
+                <div className="weapon_container">
+                  {currentWeapon ? <Weapon weapon={currentWeapon.name} active={currentWeapon.state === "active"} /> : null}
+                </div>
+              </div>
+              <div className="bottom_bottom_row">
+                {/* Dinero */}
+                <div className="money">${player.state.money}</div>
+                {/* Kills y Muertes */}
+                <div className="stats_container">
+                  <div className="kills">
+                    <Headshot className="kills_icon" />
+                    <span className="kills_value">{player.stats.kills}</span>
+                  </div>
+                  <div className="deaths">
+                    <Skull className="deaths_icon" />
+                    <span className="deaths_value">{player.stats.deaths}</span>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Primera fila: ADR - Kills en ronda */}
+              <div className="dead_top_row">
+                <div className="adr_container">
+                  <span className="adr_label">ADR:</span>
+                  <span className="adr_value">{Math.round(player.state.adr || 0)}</span>
+                </div>
+                {player.state.round_kills > 0 && (
+                  <div className="dead_round_kills">
+                    <Headshot className="dead_round_kills_icon" />
+                    <span className="dead_round_kills_value">{player.state.round_kills}</span>
+                  </div>
+                )}
+              </div>
+              {/* Segunda fila: Dinero - Kills totales - Muertes totales */}
+              <div className="dead_bottom_row">
+                <div className="money">${player.state.money}</div>
+                <div className="stats_container">
+                  <div className="kills">
+                    <Headshot className="kills_icon" />
+                    <span className="kills_value">{player.stats.kills}</span>
+                  </div>
+                  <div className="deaths">
+                    <Skull className="deaths_icon" />
+                    <span className="deaths_value">{player.stats.deaths}</span>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

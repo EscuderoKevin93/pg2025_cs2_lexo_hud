@@ -1,7 +1,7 @@
 {
-  "name": "cs2-react-hud",
+  "name": "puntogamers-ceg-4-hud-online",
   "private": true,
-  "version": "1.0.6",
+  "version": "1.0",
   "type": "module",
   "scripts": {
     "zip": "npm-build-zip",
