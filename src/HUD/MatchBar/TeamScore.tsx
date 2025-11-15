@@ -10,9 +10,10 @@ interface IProps {
   orientation: "left" | "right";
   timer: Timer | null;
   team: I.Team;
+  showName?: boolean;
 }
 
-const TeamScore = ({orientation, timer, team }: IProps) => {
+const TeamScore = ({orientation, timer, team, showName = true }: IProps) => {
     const [ show, setShow ] = useState(false);
 
     onGSI("roundEnd", result => {
@@ -27,7 +28,7 @@ const TeamScore = ({orientation, timer, team }: IProps) => {
     return (
       <>
         <div className={`team ${orientation} ${team.side || ''}`}>
-          <div className="team-name">{team?.name || null}</div>
+          {showName && <div className="team-name">{team?.name || null}</div>}
           <TeamLogo team={team} />
           <div className="round-thingy"><div className="inner"></div></div>
         </div>

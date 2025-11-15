@@ -9,11 +9,11 @@ import { ExtendedKillEvent, BombEvent } from "./Killfeed"
 		if (event.type !== "kill") {
 			return (
 				<div className={`single_kill`}>
-					<div className={`killer_name ${event.player.team.side}`}>{event.player.name}</div>
+					<div className={`killer_name ${event.player.team.side}`}>{event.player.name.toUpperCase()}</div>
 					<div className="way">
 						{event.type === "plant" ? <C4 height="18px" /> : <Defuse height="18px" />}
 					</div>
-					<div className={`victim_name`}>{event.type === "plant" ? "planted the bomb" : "defused the bomb"}</div>
+					<div className={`victim_name`}>{event.type === "plant" ? "PLANTED THE BOMB" : "DEFUSED THE BOMB"}</div>
 
 				</div>
 
@@ -29,12 +29,12 @@ import { ExtendedKillEvent, BombEvent } from "./Killfeed"
 			<div className='single_kill_container'>
 				<div className={`single_kill`}>
 					{event.attackerblind ? <FlashedKill /> : null}
-					{event.killer ? <div className={`killer_name ${event.killer.team.side}`}>{event.killer.name}</div> : null}
+					{event.killer ? <div className={`killer_name ${event.killer.team.side}`}>{event.killer.name.toUpperCase()}</div> : null}
 					{event.assister ?
 						<React.Fragment>
 							<div className="plus">+</div>
 							{event.flashed ? <img src={flash_assist} className="flash_assist" alt={'[FLASH]'} /> : null}
-							<div className={`assister_name ${event.assister.team.side}`}>{event.assister.name}</div>
+							<div className={`assister_name ${event.assister.team.side}`}>{event.assister.name.toUpperCase()}</div>
 						</React.Fragment>
 						: ''}
 					<div className="way">
@@ -44,7 +44,7 @@ import { ExtendedKillEvent, BombEvent } from "./Killfeed"
 						{event.wallbang ? <Wallbang /> : null}
 						{event.headshot ? <Headshot /> : null}
 					</div>
-					<div className={`victim_name ${event.victim.team.side}`}>{event.victim.name}</div>
+					<div className={`victim_name ${event.victim.team.side}`}>{event.victim.name.toUpperCase()}</div>
 				</div>
 			</div>
 		);
