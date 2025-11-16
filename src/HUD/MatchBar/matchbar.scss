@@ -114,11 +114,23 @@
   }
 }
 
-/* RECTÁNGULO 3 - Equipo izquierdo */
-.team_box.left {
+/* Wrapper para team_box e indicadores */
+.team_box_wrapper {
   position: absolute;
   top: 50px;
-  left: 240px;
+  
+  &.left {
+    left: 240px;
+  }
+  
+  &.right {
+    right: 240px;
+  }
+}
+
+/* RECTÁNGULO 3 - Equipo izquierdo */
+.team_box.left {
+  position: relative;
   width: 230px;
   height: 80px;
   background: #5b3abb;
@@ -214,9 +226,7 @@
 
 /* RECTÁNGULO 4 - Equipo derecho */
 .team_box.right {
-  position: absolute;
-  top: 50px;
-  right: 240px;
+  position: relative;
   width: 230px;
   height: 80px;
   background: #f0c941;
@@ -310,73 +320,178 @@
   }
 }
 
-.win_text {
-  position: fixed;
-  display: none;
-  opacity: 1;
-  width: 503px;
-  height: 50px;
-  top: 70px;
-  align-items: center;
-  color: black;
-  justify-content: center;
-  background-color: white;
-  font-size: 20px;
-  font-family: Montserrat;
-  font-weight: 600;
-  &.show {
-    display: flex;
-    animation: ShowWinCycle 5s linear 1;
-    animation-fill-mode: forwards;
-  }
-  &.right {
-    left: calc(50% + 71px);
-  }
-  &.left {
-    right: calc(50% + 71px);
+/* Win Indicator - Aparece debajo de cada team_box */
+.team_box_wrapper {
+  .win_indicator {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 230px;
+    height: 50px;
+    background: rgba(25, 25, 25, 0.98);
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 8px,
+        rgba(0, 0, 0, 0.1) 8px,
+        rgba(0, 0, 0, 0.1) 10px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 8px,
+        rgba(0, 0, 0, 0.1) 8px,
+        rgba(0, 0, 0, 0.1) 10px
+      );
+    border-radius: 0 0 6px 6px;
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 16px;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+    z-index: 200;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    &.show {
+      display: flex;
+      animation: ShowWinCycle 5s linear 1;
+      animation-fill-mode: forwards;
+    }
+
+    .logo {
+      flex-shrink: 0;
+      z-index: 2;
+      img {
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+      }
+    }
+
+    .win_text_container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
+      line-height: 1.1;
+      z-index: 2;
+    }
+
+    .round_text {
+      color: #f0c941;
+      font-size: 20px;
+      font-weight: 700;
+      font-family: "DrukCyr-Bold";
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      line-height: 1;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .winner_text {
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      font-family: "DrukCyr-Bold";
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      line-height: 1;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
   }
 }
 
-.defuse_plant_container {
-  position: fixed;
-  display: flex;
-  opacity: 1;
-  width: 503px;
-  height: 49px;
-  top: 70px;
-  align-items: center;
-  color: white;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.65);
-  .defuse_plant_bar {
-    height: 49px;
-    background-color: #3c3c3c;
+/* Plant/Defuse Container - Aparece debajo de cada team_box */
+.team_box_wrapper {
+  .defuse_plant_container {
     position: absolute;
-    width: 0%;
-  }
-  .defuse_plant_caption {
-    z-index: 1;
-    display: flex;
-    text-transform: uppercase;
-    align-items: flex-end;
-    svg {
-      margin-right: 13px;
+    top: 80px;
+    left: 0;
+    width: 230px;
+    height: 50px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgba(25, 25, 25, 0.98);
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 8px,
+        rgba(0, 0, 0, 0.1) 8px,
+        rgba(0, 0, 0, 0.1) 10px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 8px,
+        rgba(0, 0, 0, 0.1) 8px,
+        rgba(0, 0, 0, 0.1) 10px
+      );
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+    z-index: 201;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    &.show {
+      display: flex;
     }
-  }
-  &.right {
-    left: calc(50% + 71px);
+
+    &.hide {
+      display: none;
+    }
+
     .defuse_plant_bar {
+      position: absolute;
+      bottom: 0;
       left: 0;
+      width: 0%;
+      height: 100%;
+      background-color: rgba(60, 60, 60, 0.6);
+      transition: width 0.1s linear;
+      z-index: 0;
     }
-  }
-  &.left {
-    right: calc(50% + 71px);
-    .defuse_plant_bar {
-      right: 0;
+
+    .defuse_plant_caption {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      width: 100%;
+      height: 100%;
     }
-  }
-  &.hide {
-    opacity: 0;
+
+    .defuse_text,
+    .plant_text {
+      display: flex;
+      align-items: center;
+      font-family: "DrukCyr-Bold";
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      gap: 4px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+
+      .player_name {
+        color: #f0c941;
+      }
+
+      .action_text {
+        color: white;
+      }
+    }
+
+    .defuse_text .player_name {
+      color: #5ab8f4;
+    }
   }
 }
 #encapsulator {

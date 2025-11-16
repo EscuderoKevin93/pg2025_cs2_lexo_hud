@@ -11,15 +11,19 @@ interface IProps {
 const getCaption = (type: "defusing" | "planting", player: Player | null) => {
   if(!player) return null;
   if(type === "defusing"){
-    return <>
-      <I.Defuse height={22} width={22} fill="var(--color-new-ct)" />
-      <div className={'CT'}>{player.name} is defusing the bomb</div>
-    </>;
+    return (
+      <div className={'defuse_text'}>
+        <span className="player_name">{player.name.toUpperCase()}</span>
+        <span className="action_text"> ESTÁ DEFUSEANDO</span>
+      </div>
+    );
   }
-  return <>
-    <I.SmallBomb height={22} fill="var(--color-new-t)"/>
-    <div className={'T'}>{player.name} is planting the bomb</div>
-  </>;
+  return (
+    <div className={'plant_text'}>
+      <span className="player_name">{player.name.toUpperCase()}</span>
+      <span className="action_text"> ESTÁ PLANTANDO</span>
+    </div>
+  );
 }
 const Bomb = ({ timer, side }: IProps) =>{ 
   if(!timer) return null;

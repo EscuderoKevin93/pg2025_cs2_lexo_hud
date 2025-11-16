@@ -1,6 +1,10 @@
 import * as I from "csgogsi";
 import "./matchbar.scss";
 import TeamLogo from "./TeamLogo";
+import WinIndicator from "./WinIndicator";
+import PlantDefuse from "../Timers/PlantDefuse";
+import { useBombTimer } from "../Timers/Countdown";
+import { onGSI } from "../../API/contexts/actions";
 import { Match } from "./../../API/types";
 import { useEffect, useState } from "react";
 import * as API from "./../../API/types";
@@ -50,6 +54,8 @@ const Matchbar = (props: IProps) => {
   const right = map.team_ct.orientation === "left" ? map.team_t : map.team_ct;
 
   const [tournament, setTournament] = useState<API.Tournament | null>(null);
+  const [showLeftWin, setShowLeftWin] = useState(false);
+  const [showRightWin, setShowRightWin] = useState(false);
 
   useEffect(() => {
     api.tournaments.get().then(({ tournament }) => {
@@ -58,6 +64,34 @@ const Matchbar = (props: IProps) => {
       }
     });
   }, []);
+
+  // Win indicator logic
+  onGSI("roundEnd", (result) => {
+    if (result.winner.orientation === "left") {
+      setShowLeftWin(true);
+      setTimeout(() => setShowLeftWin(false), 5000);
+    } else if (result.winner.orientation === "right") {
+      setShowRightWin(true);
+      setTimeout(() => setShowRightWin(false), 5000);
+    }
+  }, []);
+
+  const bombData = useBombTimer();
+  const plantTimer: Timer | null = bombData.state === "planting" ? { 
+    time: bombData.plantTime, 
+    active: true, 
+    side: bombData.player?.team.orientation || "right", 
+    player: bombData.player, 
+    type: "planting" 
+  } : null;
+  
+  const defuseTimer: Timer | null = bombData.state === "defusing" ? { 
+    time: bombData.defuseTime, 
+    active: true, 
+    side: bombData.player?.team.orientation || "left", 
+    player: bombData.player, 
+    type: "defusing" 
+  } : null;
 
   const tournamentName = tournament?.name || (match && "event" in match && (match as { event?: { name?: string } }).event?.name) || "CREADORES EN GUERRA #4";
   const stageName = (match && "extra" in match && (match as { extra?: { stage?: string; phase?: string } }).extra?.stage) || (match && "extra" in match && (match as { extra?: { stage?: string; phase?: string } }).extra?.phase) || "FASE ONLINE";
@@ -82,35 +116,43 @@ const Matchbar = (props: IProps) => {
         </div>
 
         {/* RECTÁNGULO 3 - Equipo izquierdo */}
-        <div className="team_box left">
-          <div className="team_info_container">
-            <div className="team_name_panel">{left.name?.toUpperCase() || "TEAM"}</div>
-            <div className="series_wins_container">
-              {new Array(amountOfMaps).fill(0).map((_, i) => (
-                <div key={i} className={`wins_box ${left.matches_won_this_series > i ? "win" : ""} ${left.side}`} />
-              ))}
+        <div className="team_box_wrapper left">
+          <div className="team_box left">
+            <div className="team_info_container">
+              <div className="team_name_panel">{left.name?.toUpperCase() || "TEAM"}</div>
+              <div className="series_wins_container">
+                {new Array(amountOfMaps).fill(0).map((_, i) => (
+                  <div key={i} className={`wins_box ${left.matches_won_this_series > i ? "win" : ""} ${left.side}`} />
+                ))}
+              </div>
+            </div>
+            <div className="score_logo_container">
+              <TeamLogo team={left} height={50} width={50} />
+              <div className="team_score">{left.score}</div>
             </div>
           </div>
-          <div className="score_logo_container">
-            <TeamLogo team={left} height={50} width={50} />
-            <div className="team_score">{left.score}</div>
-          </div>
+          <WinIndicator team={left} show={showLeftWin} />
+          <PlantDefuse timer={left.orientation === plantTimer?.side ? plantTimer : left.orientation === defuseTimer?.side ? defuseTimer : null} side="left" />
         </div>
 
         {/* RECTÁNGULO 4 - Equipo derecho */}
-        <div className="team_box right">
-          <div className="score_logo_container">
-            <div className="team_score">{right.score}</div>
-            <TeamLogo team={right} height={50} width={50} />
-          </div>
-          <div className="team_info_container">
-            <div className="team_name_panel">{right.name?.toUpperCase() || "TEAM"}</div>
-            <div className="series_wins_container">
-              {new Array(amountOfMaps).fill(0).map((_, i) => (
-                <div key={i} className={`wins_box ${right.matches_won_this_series > i ? "win" : ""} ${right.side}`} />
-              ))}
+        <div className="team_box_wrapper right">
+          <div className="team_box right">
+            <div className="score_logo_container">
+              <div className="team_score">{right.score}</div>
+              <TeamLogo team={right} height={50} width={50} />
+            </div>
+            <div className="team_info_container">
+              <div className="team_name_panel">{right.name?.toUpperCase() || "TEAM"}</div>
+              <div className="series_wins_container">
+                {new Array(amountOfMaps).fill(0).map((_, i) => (
+                  <div key={i} className={`wins_box ${right.matches_won_this_series > i ? "win" : ""} ${right.side}`} />
+                ))}
+              </div>
             </div>
           </div>
+          <WinIndicator team={right} show={showRightWin} />
+          <PlantDefuse timer={right.orientation === plantTimer?.side ? plantTimer : right.orientation === defuseTimer?.side ? defuseTimer : null} side="right" />
         </div>
       </div>
     </>
