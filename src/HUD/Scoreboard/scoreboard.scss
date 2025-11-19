@@ -1,0 +1,245 @@
+.scoreboard {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 400px;
+  height: 600px;
+  background: rgba(20, 20, 20, 0.98);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  z-index: 300;
+  display: none;
+  flex-direction: column;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+
+  &.show {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+    animation: slideInFromTop 0.4s ease-out;
+  }
+
+  &.hide {
+    display: flex;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.15s ease-in, opacity 0.15s ease-in;
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .scoreboard_container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 1px 6px 3px;
+    gap: 6px;
+    max-height: 576px;
+    overflow-y: auto;
+    overflow-x: visible;
+    align-items: stretch;
+
+    /* Scrollbar personalizado */
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+    }
+  }
+
+  .scoreboard_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: rowSlideIn 0.3s ease-out forwards;
+    min-width: 0;
+    overflow: visible;
+    width: 340px;
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    .scoreboard.show & {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @keyframes rowSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    &.CT {
+      border-left: 3px solid var(--color-new-ct);
+    }
+
+    &.T {
+      border-left: 3px solid var(--color-new-t);
+    }
+
+    .team_logo_wrapper {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+
+      .logo {
+        img {
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+
+    .avatar_wrapper {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+
+      .avatar {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+        border-radius: 50% !important;
+        overflow: hidden !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+
+        img {
+          width: 32px !important;
+          height: 32px !important;
+          min-width: 32px !important;
+          min-height: 32px !important;
+          max-width: 32px !important;
+          max-height: 32px !important;
+          object-fit: cover !important;
+          border-radius: 50% !important;
+          display: block !important;
+        }
+
+        // Evitar que la videofeed o camera container afecten el tamaño
+        .videofeed,
+        video {
+          width: 32px !important;
+          height: 32px !important;
+          min-width: 32px !important;
+          min-height: 32px !important;
+          max-width: 32px !important;
+          max-height: 32px !important;
+          border-radius: 50% !important;
+          object-fit: cover !important;
+        }
+      }
+    }
+
+    .player_name {
+      flex: 1;
+      font-family: "DrukCyr-Medium";
+      font-size: 20px;
+      font-weight: 300;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
+      min-width: 0;
+      text-align: left;
+    }
+
+    .stats_section {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: center;
+      overflow: visible;
+      text-align: right;
+
+      .stat {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+
+        .stat_value {
+          font-family: "DrukCyr-Bold";
+          font-size: 20px;
+          font-weight: 700;
+          color: white;
+          line-height: 1;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+          white-space: nowrap;
+        }
+      }
+
+      .stat_separator {
+        font-family: "DrukCyr-Bold";
+        font-size: 18px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.4);
+        line-height: 1;
+      }
+
+      .stat.kills .stat_value {
+        color: #4ade80;
+      }
+
+      .stat.deaths .stat_value {
+        color: #f87171;
+      }
+
+      .stat.kda .stat_value {
+        color: #f0c941;
+      }
+    }
+  }
+}

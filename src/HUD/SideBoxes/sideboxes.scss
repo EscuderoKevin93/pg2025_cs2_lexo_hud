@@ -1,12 +1,16 @@
 .boxes {
 	position: fixed;
-	bottom: 384px;
+	bottom: 240px; /* Posicionado arriba de los players (que están en bottom: 25px) */
+	display: flex;
+	flex-direction: row;
+	gap: 12px;
+	align-items: flex-start;
 }
 .boxes.left {
-	left: 10px;
+	left: 25px;
 }
 .boxes.right {
-	right: 10px;
+	right: 25px;
 }
 .boxes.hide {
 	.utilitybox {
@@ -72,104 +76,172 @@
 	}
 }
 .utilitybox {
-	width: 415px;
-	height: 70px;
+	width: 340px;
+	height: 100px;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	opacity: 1;
 	transition: all 0.75s;
-	background-color: var(--sub-panel-color);
-	margin-bottom: 4px;
-	margin-top: 4px;
-	flex-direction: column;
-	margin-bottom: 4px;
-	border-radius: 20px 20px 0 0;
+	background: rgba(20, 20, 20, 0.95);
+	background-image: repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.1) 10px), repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.1) 10px);
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	overflow: hidden;
+	flex-shrink: 0;
+	
 	.title_container {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		font-weight: 600;
-		font-size: 16px;
-		height: 24px;
+		gap: 12px;
+		height: 40px;
+		padding: 0 20px;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	}
+	
 	.title {
-		height: 20px;
+		font-family: "DrukCyr-Bold";
+		font-size: 28px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 1px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		color: white;
+		line-height: 1;
 	}
+	
+	.subtitle {
+		font-family: "DrukCyr-Bold";
+		font-size: 28px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 1;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+	}
+	
 	.grenades_container {
-		display: flex ;
-		
+		display: flex;
 		flex: 1;
-		height: 46px;
+		height: 60px;
+		padding: 8px 20px;
+		gap: 16px;
+		align-items: center;
+		justify-content: center;
+		
 		.grenade_container {
 			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
 			flex: 1;
 			color: white;
-			align-items: center;
-			font-weight: 600;
-			font-size: 18px;
-			justify-content: center;
 			
-			svg {
-				height: 30px;
-				width:auto;				
+			.grenade_image {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				
+				svg {
+					height: 32px;
+					width: auto;
+					filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+				}
 			}
+		}
+		
+		.grenade_amount {
+			font-family: "DrukCyr-Bold";
+			font-size: 22px;
+			font-weight: 700;
+			color: white;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+			line-height: 1;
 		}
 	}
 }
 .moneybox {
-	width: 415px;
-	height: 70px;
+	width: 340px;
+	height: 100px;
 	display: flex;
 	flex-direction: row;
 	opacity: 1;
 	transition: all 0.75s;
-	background-color: var(--sub-panel-color);
-	margin-bottom: 4px;
-	margin-top: 4px;
-	font-weight: 600;
-	margin-bottom: 0px;
+	background: rgba(20, 20, 20, 0.95);
+	background-image: repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.1) 10px), repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.1) 10px);
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	overflow: hidden;
+	flex-shrink: 0;
+	
 	.money_container {
 		display: flex;
 		flex-direction: column;
 		flex: 1;
 		color: white;
+		padding: 8px 12px;
+		justify-content: center;
+		gap: 4px;
+		
 		.title {
-			height: 25px;
-			display: flex;
-			align-items: flex-end;
-			font-size: 16px;
-			justify-content: center;
-		}
-		.value {
-			flex: 1;
+			font-family: "DrukCyr-Bold";
+			font-size: 14px;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
 			display: flex;
 			align-items: center;
-			font-size: 18px;
 			justify-content: center;
+			line-height: 1;
+			text-align: center;
+		}
+		
+		.value {
+			font-family: "DrukCyr-Bold";
+			font-size: 24px;
+			font-weight: 700;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			line-height: 1;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 		}
 	}
+	
 	.loss_container {
-		width: 4px;
+		width: 6px;
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		justify-content: center;
+		padding: 8px 4px;
+		gap: 2px;
+		
 		.loss-box {
-			height: 13px;
+			height: 18px;
 			width: 100%;
-			background-color: #515254;
-			margin-top: 1px;
-			margin-bottom: 1px;
+			background-color: rgba(81, 82, 84, 0.5);
+			border-radius: 2px;
+			transition: background-color 0.3s ease;
 		}
+		
 		.loss-box.active.CT {
 			background-color: var(--color-new-ct);
+			box-shadow: 0 0 8px rgba(90, 184, 244, 0.5);
 		}
+		
 		.loss-box.active.T {
 			background-color: var(--color-new-t);
+			box-shadow: 0 0 8px rgba(240, 201, 65, 0.5);
 		}
 	}
 }
@@ -195,11 +267,13 @@
 .utilitybox.CT {
 	.title {
 		color: var(--color-new-ct);
+		text-shadow: 0 0 8px rgba(90, 184, 244, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
 	}
 }
 .utilitybox.T {
 	.title {
 		color: var(--color-new-t);
+		text-shadow: 0 0 8px rgba(240, 201, 65, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
 	}
 }
 .moneybox.right {
@@ -209,6 +283,7 @@
 	.money_container {
 		.title {
 			color: var(--color-new-ct);
+			text-shadow: 0 0 8px rgba(90, 184, 244, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
 		}
 	}
 }
@@ -216,6 +291,7 @@
 	.money_container {
 		.title {
 			color: var(--color-new-t);
+			text-shadow: 0 0 8px rgba(240, 201, 65, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
 		}
 	}
 }

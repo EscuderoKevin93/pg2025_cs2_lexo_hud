@@ -30,15 +30,15 @@ const Money = ({ side, team, loss, equipment, money, show }: Props) => {
         <LossBox side={team} active={(loss - 1400) / 500 >= 1} />
       </div>
       <div className="money_container">
-        <div className="title">Loss Bonus</div>
+        <div className="title">BONUS DE DERROTA</div>
         <div className="value">${loss}</div>
       </div>
       <div className="money_container">
-        <div className="title">Team Money</div>
+        <div className="title">DINERO DEL EQUIPO</div>
         <div className="value">${money}</div>
       </div>
       <div className="money_container">
-        <div className="title">Equipment Value</div>
+        <div className="title">VALOR DE EQUIPO</div>
         <div className="value">${equipment}</div>
       </div>
     </div>

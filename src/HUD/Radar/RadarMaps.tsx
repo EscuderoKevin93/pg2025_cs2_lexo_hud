@@ -11,6 +11,7 @@ interface Props { match: Match | null, map: Map, game: CSGO }
  const RadarMaps = ({ match, map, game }: Props) => {
     const [ radarSize, setRadarSize ] = useState(366);
     const [ showBig, setShowBig ] = useState(false);
+    const isFreezetime = (game.round && game.round.phase === "freezetime") || game.phase_countdowns.phase === "freezetime";
 
     useAction('radarBigger', () => {
         setRadarSize(p => p+10);
@@ -23,6 +24,8 @@ interface Props { match: Match | null, map: Map, game: CSGO }
     useAction('toggleRadarView', () => {
         setShowBig(p => !p);
     }, []);
+
+    if (isFreezetime) return null;
 
     return (
         <div id={`radar_maps_container`} className={` ${showBig ? 'preview':''}`}>

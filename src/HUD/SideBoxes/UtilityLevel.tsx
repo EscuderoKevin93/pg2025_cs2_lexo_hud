@@ -10,21 +10,21 @@ interface Props {
 
 function utilityState(amount: number) {
   if (amount === 20) {
-    return "Full";
+    return "COMPLETO";
   }
   if (amount > 14) {
-    return "Great";
+    return "EXCELENTE";
   }
   if (amount > 9) {
-    return "Good";
+    return "BUENO";
   }
   if (amount > 5) {
-    return "Low";
+    return "BAJO";
   }
   if (amount > 0) {
-    return "Poor";
+    return "ESCASO";
   }
-  return "None";
+  return "NINGUNO";
 }
 
 function utilityColor(amount: number) {
@@ -104,7 +104,7 @@ const SideBox = ({ players, side, show }: Props) => {
   return (
     <div className={`utilitybox ${side || ""} ${show ? "show" : "hide"}`}>
       <div className="title_container">
-        <div className="title">Utility Level -&nbsp;</div>
+        <div className="title">NIVEL DE UTILIDADES</div>
         <div className="subtitle" style={{ color: utilityColor(total) }}>
           {utilityState(total)}
         </div>

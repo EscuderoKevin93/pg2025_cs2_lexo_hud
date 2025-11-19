@@ -13,6 +13,7 @@ import Overview from "../Overview/Overview";
 import Tournament from "../Tournament/Tournament";
 import Pause from "../PauseTimeout/Pause";
 import Timeout from "../PauseTimeout/Timeout";
+import Scoreboard from "../Scoreboard/Scoreboard";
 import { CSGO } from "csgogsi";
 import { Match } from "../../API/types";
 import { useAction } from "../../API/contexts/actions";
@@ -68,17 +69,10 @@ const Layout = ({ game, match }: Props) => {
   const isFreezetime = (game.round && game.round.phase === "freezetime") || game.phase_countdowns.phase === "freezetime";
   return (
     <div className="layout">
-      <div className={`players_alive`}>
-        <div className="title_container">Players alive</div>
-        <div className="counter_container">
-          <div className={`team_counter ${left.side}`}>{leftPlayers.filter((player) => player.state.health > 0).length}</div>
-          <div className={`vs_counter`}>VS</div>
-          <div className={`team_counter ${right.side}`}>{rightPlayers.filter((player) => player.state.health > 0).length}</div>
-        </div>
-      </div>
       <Killfeed />
       <Overview match={match} map={game.map} players={game.players || []} />
       <RadarMaps match={match} map={game.map} game={game} />
+      <Scoreboard players={game.players || []} teams={{ left, right }} show={isFreezetime && !forceHide} />
       <MatchBar map={game.map} phase={game.phase_countdowns} bomb={game.bomb} match={match} />
       <Pause phase={game.phase_countdowns} />
       <Timeout map={game.map} phase={game.phase_countdowns} />
