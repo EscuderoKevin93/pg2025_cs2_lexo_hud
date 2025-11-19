@@ -1,163 +1,70 @@
-[
+{
+  "panels": [],
+  "variantsv2": [
     {
-        "label": "Trivia",
-        "name":"trivia",
-        "inputs": [
-            {
-                "type": "text",
-                "name": "title",
-                "label": "Trivia title"
-            },
-            {
-                "type": "text",
-                "name": "content",
-                "label": "Trivia content"
-            },
-            {
-                "type": "action",
-                "name": "triviaState",
-                "values": [
-                    {
-                        "name": "show",
-                        "label": "Show trivia"
-                    },
-                    {
-                        "name": "hide",
-                        "label": "Hide trivia"
-                    }
-                ]
-            }
-        ]
+      "group": { "en": "Main HUDs" },
+      "groupVariants": [
+        {
+          "url": "HudOnline",
+          "label": { "en": "HUD Online" },
+          "description": { "en": "Main HUD for online matches" }
+        },
+        {
+          "url": "HudPresencial",
+          "label": { "en": "HUD Presencial" },
+          "description": { "en": "Main HUD for in-person matches" }
+        }
+      ]
     },
     {
-        "label": "Display settings",
-        "name":"display_settings",
-        "inputs": [
-            {
-                "type": "text",
-                "name": "left_title",
-                "label": "Left box's title"
-            },
-            {
-                "type": "text",
-                "name": "right_title",
-                "label": "Right box's title"
-            },
-            {
-                "type": "text",
-                "name": "left_subtitle",
-                "label": "Left box's subtitle"
-            },
-            {
-                "type": "text",
-                "name": "right_subtitle",
-                "label": "Right box's subtitle"
-            },
-            {
-                "type":"image",
-                "name":"left_image",
-                "label":"Left box's image logo"
-            },
-            {
-                "type":"image",
-                "name":"right_image",
-                "label":"Right box's image logo"
-            },
-            {
-                "type":"select",
-                "name":"replace_avatars",
-                "label":"Use team logos as player avatars",
-                "values": [
-                    {
-                        "label": "Only if player has no avatar",
-                        "name": "if_missing"
-                    },
-                    {
-                        "label": "Always",
-                        "name": "always"
-                    }
-                ]
-            },
-            {
-                "type": "action",
-                "name": "boxesState",
-                "values": [
-                    {
-                        "name": "show",
-                        "label": "Show boxes"
-                    },
-                    {
-                        "name": "hide",
-                        "label": "Hide boxes"
-                    }
-                ]
-            },
-            {
-                "type": "action",
-                "name": "toggleRadarView",
-                "values": [
-                    {
-                        "name": "toggler",
-                        "label": "Toggle radar view"
-                    }
-                ]
-            }
-        ]
+      "group": { "en": "Camera Overlays" },
+      "groupVariants": [
+        {
+          "url": "TodasLasCamaras",
+          "label": { "en": "Todas las Cámaras" },
+          "description": { "en": "Show all 10 player cameras (5 CT + 5 T)" }
+        },
+        {
+          "url": "CamarasTT",
+          "label": { "en": "Cámaras TT" },
+          "description": { "en": "Show only Terrorist team cameras (5 players)" }
+        },
+        {
+          "url": "CamarasCT",
+          "label": { "en": "Cámaras CT" },
+          "description": { "en": "Show only Counter-Terrorist team cameras (5 players)" }
+        }
+      ]
     },
     {
-        "label": "Player & Match overview",
-        "name":"preview_settings",
-        "inputs": [
-            {
-                "type": "match",
-                "name": "match_preview",
-                "label": "Pick an upcoming match"
-            },
-            {
-                "type": "select",
-                "name": "select_preview",
-                "label": "Mood indicator",
-                "values": [
-                    {
-                        "name": "show",
-                        "label": ":)"
-                    },
-                    {
-                        "name": "hide",
-                        "label": ":("
-                    }
-                ]
-            },
-            {
-                "type": "player",
-                "name": "player_preview",
-                "label": "Pick a player to preview"
-            },
-            {
-                "type": "checkbox",
-                "name": "player_preview_toggle",
-                "label": "Show player preview"
-            },
-            {
-                "type": "checkbox",
-                "name": "match_preview_toggle",
-                "label": "Show upcoming match"
-            },
-            {
-                "type": "action",
-                "name": "showTournament",
-                "values": [
-                    {
-                        "name": "show",
-                        "label": "Show tournament"
-                    },
-                    {
-                        "name": "hide",
-                        "label": "Hide tournament"
-                    }
-                ]
-            }
-
-        ]
+      "group": { "en": "Special Overlays" },
+      "groupVariants": [
+        {
+          "url": "Replay",
+          "label": { "en": "Replay" },
+          "description": { "en": "Replay overlay for showing replays using LHM Replays" }
+        },
+        {
+          "url": "ScoreBoard",
+          "label": { "en": "ScoreBoard" },
+          "description": { "en": "Scoreboard only overlay" }
+        }
+      ]
+    },
+    {
+      "group": { "en": "CEG Variants" },
+      "groupVariants": [
+        {
+          "url": "HudCEG1",
+          "label": { "en": "HUD CEG 1" },
+          "description": { "en": "CEG variant 1" }
+        },
+        {
+          "url": "HudCEG2",
+          "label": { "en": "HUD CEG 2" },
+          "description": { "en": "CEG variant 2" }
+        }
+      ]
     }
-]
+  ]
+}

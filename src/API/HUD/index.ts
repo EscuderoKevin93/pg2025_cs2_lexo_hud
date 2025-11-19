@@ -1,9 +1,15 @@
 import { CSGOGSI, Player, PlayerExtension } from 'csgogsi';
-import api, { isDev } from '..';
+import api, { isDev, variant } from '..';
 
 export const hudIdentity = {
 	name: '',
 	isDev
+};
+
+export const getVariant = (): string => {
+	// La variante se lee del query parameter según la documentación oficial
+	// https://guide.lhm.gg/docs/spec/rest-api/huds/#hud-variants
+	return variant !== "default" ? variant : '';
 };
 
 export const GSI = new CSGOGSI();

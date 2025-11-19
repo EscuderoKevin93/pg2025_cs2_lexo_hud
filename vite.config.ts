@@ -15,7 +15,14 @@ const updateDefinitonFile = async ({ filePath, content }: { filePath: string, co
   try {
     const json = JSON.parse(fileContent);
     const variableName = filePath.endsWith("panel.json") ? "panelDefinition" : "keybindDefinition";
-    fs.writeFileSync(path.join(".", "src", "API", "contexts", fileName), getDefinitionTemplate(variableName, JSON.stringify(json, null, 2)));
+    
+    // Si panel.json tiene la nueva estructura con "panels" y "variantsv2", extraer solo "panels"
+    if (filePath.endsWith("panel.json") && json.panels && Array.isArray(json.panels)) {
+      const panelsOnly = json.panels.length > 0 ? json.panels : [];
+      fs.writeFileSync(path.join(".", "src", "API", "contexts", fileName), getDefinitionTemplate(variableName, JSON.stringify(panelsOnly, null, 2)));
+    } else {
+      fs.writeFileSync(path.join(".", "src", "API", "contexts", fileName), getDefinitionTemplate(variableName, JSON.stringify(json, null, 2)));
+    }
   } catch (e) {
     console.error(`Updating ${fileName} failed:`);
     console.log(e);

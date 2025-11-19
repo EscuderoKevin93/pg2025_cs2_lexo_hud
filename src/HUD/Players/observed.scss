@@ -208,6 +208,129 @@
       }
     }
   }
+
+  // Variante HudOnline: sin cámara, más angosto pero más alto
+  &.no-camera {
+    width: 320px; // Más angosto que 370px
+    height: auto;
+
+    .camera_container {
+      display: none; // Ocultar completamente el contenedor de cámara
+    }
+
+    .bars_container {
+      border-radius: 8px; // Bordes redondeados cuando no hay cámara
+      min-height: 280px; // Más alto
+      display: flex;
+      flex-direction: column;
+      position: relative; // Para posicionar el logo
+    }
+
+    .top_bar {
+      border-radius: 8px 8px 0 0; // Bordes superiores redondeados
+    }
+
+    .health_bar_container {
+      border-radius: 0;
+      order: 2;
+    }
+
+    .hud-online-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      gap: 12px;
+      order: 3;
+      flex: 1;
+      background: rgba(0, 0, 0, 0.6);
+
+      .team-logo-small {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        opacity: 0.8;
+      }
+
+      .avatar-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+
+        .avatar {
+          width: 80px !important;
+          height: 80px !important;
+          border-radius: 50% !important;
+          border: 2px solid rgba(255, 255, 255, 0.3) !important;
+          overflow: hidden !important;
+
+          img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+          }
+        }
+      }
+
+      .weapons-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+
+        .weapon-display {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          svg.weapon {
+            max-width: 60px;
+            max-height: 40px;
+            width: auto;
+            height: 40px;
+            opacity: 0.9;
+
+            &.active {
+              opacity: 1;
+            }
+          }
+        }
+
+        .grenades-display {
+          display: flex;
+          flex-direction: row;
+          gap: 6px;
+          align-items: center;
+          justify-content: center;
+
+          svg.grenade {
+            max-width: 20px;
+            max-height: 20px;
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+
+            &.active {
+              opacity: 1;
+            }
+          }
+
+          .grenade-empty {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
 }
 
 #cameraFeed {

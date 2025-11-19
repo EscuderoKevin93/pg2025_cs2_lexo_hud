@@ -1,0 +1,135 @@
+.todas-las-camaras-layout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .cameras-horizontal-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    width: 100%;
+    max-width: 1920px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .camera-horizontal-item {
+    position: relative;
+    width: calc((100% - 60px) / 5); // 5 cámaras por fila (10 en total)
+    max-width: 360px;
+    min-width: 280px;
+    aspect-ratio: 16 / 10;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+
+    &.ct {
+      border-color: rgba(93, 121, 174, 0.6);
+    }
+
+    &.t {
+      border-color: rgba(222, 155, 53, 0.6);
+    }
+
+    &.dead {
+      opacity: 0.6;
+      filter: grayscale(50%);
+    }
+
+    .camera-video-container {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.5);
+
+      video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .video-call-preview {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        border-radius: 0;
+        opacity: 1 !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .player-info-bar {
+      width: 100%;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(20, 20, 30, 0.98) 100%
+      );
+      padding: 8px 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-start;
+      white-space: nowrap;
+
+      .player-name {
+        font-family: "DrukCyr-Medium";
+        font-size: 16px;
+        font-weight: 600;
+        color: white;
+        text-transform: uppercase;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        flex-shrink: 0;
+      }
+
+      .stat {
+        font-family: "DrukCyr-Bold";
+        font-size: 16px;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        white-space: nowrap;
+
+        &.health {
+          color: #4ade80;
+        }
+
+        &.kills {
+          color: #4ade80;
+        }
+
+        &.deaths {
+          color: #f87171;
+        }
+
+        &.assists {
+          color: #60a5fa;
+        }
+      }
+    }
+  }
+}
+

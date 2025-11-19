@@ -42,8 +42,20 @@ if (isDev) {
     hudIdentity.name = (Math.random() * 1000 + 1).toString(36).replace(/[^a-z]+/g, '').substr(0, 15);
     hudIdentity.isDev = true;
 } else {
-    const segment = href.substr(href.indexOf('/huds/') + 6);
-    hudIdentity.name = segment.substr(0, segment.lastIndexOf('/'));
+    // Extraer nombre del HUD del path (tanto /huds/ como /huds-variant/)
+    const hudsVariantIndex = href.indexOf('/huds-variant/');
+    const hudsIndex = href.indexOf('/huds/');
+    
+    if (hudsVariantIndex !== -1) {
+        // /huds-variant/ultrahud/veto/ -> extraer "ultrahud"
+        const segment = href.substr(hudsVariantIndex + 14); // +14 para saltar '/huds-variant/'
+        const parts = segment.split('/').filter(p => p.length > 0);
+        hudIdentity.name = parts[0] || '';
+    } else if (hudsIndex !== -1) {
+        // /huds/premiumhud/ -> extraer "premiumhud"
+        const segment = href.substr(hudsIndex + 6); // +6 para saltar '/huds/'
+        hudIdentity.name = segment.substr(0, segment.lastIndexOf('/'));
+    }
 }
 
 socket.on("readyToRegister", () => {

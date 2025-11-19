@@ -1,87 +1,40 @@
 import { useState } from "react";
-import TeamBox from "./../Players/TeamBox";
-import MatchBar from "../MatchBar/MatchBar";
-import SeriesBox from "../MatchBar/SeriesBox";
-import Observed from "./../Players/Observed";
-import RadarMaps from "./../Radar/RadarMaps";
-import SideBox from "../SideBoxes/SideBox";
-import MoneyBox from "../SideBoxes/Money";
-import UtilityLevel from "../SideBoxes/UtilityLevel";
-import Killfeed from "../Killfeed/Killfeed";
-import MapSeries from "../MapSeries/MapSeries";
-import Overview from "../Overview/Overview";
-import Tournament from "../Tournament/Tournament";
-import Pause from "../PauseTimeout/Pause";
-import Timeout from "../PauseTimeout/Timeout";
-import Scoreboard from "../Scoreboard/Scoreboard";
+import TeamBox from "../../Players/TeamBox";
+import MatchBar from "../../MatchBar/MatchBar";
+import SeriesBox from "../../MatchBar/SeriesBox";
+import RadarMaps from "../../Radar/RadarMaps";
+import SideBox from "../../SideBoxes/SideBox";
+import MoneyBox from "../../SideBoxes/Money";
+import UtilityLevel from "../../SideBoxes/UtilityLevel";
+import Killfeed from "../../Killfeed/Killfeed";
+import MapSeries from "../../MapSeries/MapSeries";
+import Overview from "../../Overview/Overview";
+import Tournament from "../../Tournament/Tournament";
+import Pause from "../../PauseTimeout/Pause";
+import Timeout from "../../PauseTimeout/Timeout";
+import Scoreboard from "../../Scoreboard/Scoreboard";
 import { CSGO } from "csgogsi";
-import { Match } from "../../API/types";
-import { useAction } from "../../API/contexts/actions";
-import { Scout } from "../Scout";
-import { getVariant } from "../../API/HUD";
-import ScoreBoardOnly from "../Variants/ScoreBoardOnly/ScoreBoardOnly";
-import TodasLasCamaras from "../Variants/TodasLasCamaras/TodasLasCamaras";
-import Replay from "../Variants/Replay/Replay";
-import "../Variants/HudCEG1/ceg1.scss";
-import "../Variants/HudCEG2/ceg2.scss";
+import { Match } from "../../../API/types";
+import { useAction } from "../../../API/contexts/actions";
+import { Scout } from "../../Scout";
+import TeamBoxSimple from "./TeamBoxSimple";
+import Observed from "../../Players/Observed";
 
 interface Props {
   game: CSGO;
   match: Match | null;
 }
-/*
-interface State {
-  winner: Team | null,
-  showWin: boolean,
-  forceHide: boolean
-}*/
 
-const Layout = ({ game, match }: Props) => {
+const Replay = ({ game, match }: Props) => {
   const [forceHide, setForceHide] = useState(false);
 
   useAction("boxesState", (state) => {
-    console.log("UPDATE STATE UMC", state);
     if (state === "show") {
       setForceHide(false);
     } else if (state === "hide") {
       setForceHide(true);
     }
   });
-
-  // Detectar y renderizar variantes
-  const currentVariant = getVariant();
-  
-  // Variante 9: ScoreBoard - Solo tabla de jugadores abajo
-  if (currentVariant === "ScoreBoard") {
-    return <ScoreBoardOnly game={game} />;
-  }
-
-  // Variante 3: TodasLasCamaras - Cámaras horizontales con info
-  if (currentVariant === "TodasLasCamaras") {
-    return <TodasLasCamaras game={game} />;
-  }
-
-  // Variante 4: CamarasTT - Solo cámaras T
-  if (currentVariant === "CamarasTT") {
-    return <TodasLasCamaras game={game} filterTeam="T" />;
-  }
-
-  // Variante 5: CamarasCT - Solo cámaras CT
-  if (currentVariant === "CamarasCT") {
-    return <TodasLasCamaras game={game} filterTeam="CT" />;
-  }
-
-  // Variante 6: Replay - HUD simplificado sin observed
-  if (currentVariant === "Replay") {
-    return <Replay game={game} match={match} />;
-  }
-
-  // Variante 2: HudPresencial - Igual al actual (default)
-  // Variante 1: HudOnline - Igual pero observed sin cámara (se maneja en Observed.tsx)
-  // Variantes 7 y 8: HudCEG1 y HudCEG2 - Diferentes colores (se maneja con clases CSS)
-
-  // Determinar clase CSS para variantes de color
-  const layoutClass = currentVariant === "HudCEG1" ? "ceg1-variant" : currentVariant === "HudCEG2" ? "ceg2-variant" : "";
 
   const left = game.map.team_ct.orientation === "left" ? game.map.team_ct : game.map.team_t;
   const right = game.map.team_ct.orientation === "left" ? game.map.team_t : game.map.team_ct;
@@ -107,9 +60,11 @@ const Layout = ({ game, match }: Props) => {
       }
       return slotA - slotB;
     });
+  
   const isFreezetime = (game.round && game.round.phase === "freezetime") || game.phase_countdowns.phase === "freezetime";
+
   return (
-    <div className={`layout ${layoutClass}`}>
+    <div className="layout">
       <Killfeed />
       <Overview match={match} map={game.map} players={game.players || []} />
       <RadarMaps match={match} map={game.map} game={game} />
@@ -123,8 +78,9 @@ const Layout = ({ game, match }: Props) => {
 
       <Observed player={game.player} />
 
-      <TeamBox team={left} players={leftPlayers} side="left" current={game.player} />
-      <TeamBox team={right} players={rightPlayers} side="right" current={game.player} />
+      {/* Players solo con fotos (sin info adicional) */}
+      <TeamBoxSimple team={left} players={leftPlayers} side="left" current={game.player} />
+      <TeamBoxSimple team={right} players={rightPlayers} side="right" current={game.player} />
 
       <Scout left={left.side} right={right.side} />
       <MapSeries teams={[left, right]} match={match} isFreezetime={isFreezetime} map={game.map} />
@@ -155,4 +111,6 @@ const Layout = ({ game, match }: Props) => {
     </div>
   );
 };
-export default Layout;
+
+export default Replay;
+

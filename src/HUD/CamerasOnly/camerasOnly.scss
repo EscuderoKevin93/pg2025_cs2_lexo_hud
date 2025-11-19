@@ -1,0 +1,102 @@
+.cameras-only-layout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+
+  .cameras-grid {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1920px;
+    padding: 20px;
+    box-sizing: border-box;
+
+    .team-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .team-label {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        padding: 10px;
+        
+        &.ct {
+          color: #5d79ae;
+        }
+        
+        &.t {
+          color: #de9b35;
+        }
+      }
+
+      &.ct .team-label {
+        color: #5d79ae;
+      }
+
+      &.t .team-label {
+        color: #de9b35;
+      }
+
+      .cameras-list {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+        flex: 1;
+
+        .camera-item {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          background: rgba(0, 0, 0, 0.7);
+          border-radius: 8px;
+          overflow: hidden;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+          &.ct {
+            border-color: rgba(93, 121, 174, 0.5);
+          }
+
+          &.t {
+            border-color: rgba(222, 155, 53, 0.5);
+          }
+
+          .video-call-preview {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+            border-radius: 6px;
+            opacity: 1 !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.5);
+          }
+
+          video {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+            border-radius: 6px;
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
