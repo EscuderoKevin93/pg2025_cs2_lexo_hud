@@ -66,35 +66,44 @@ const Matchbar = (props: IProps) => {
   }, []);
 
   // Win indicator logic
-  onGSI("roundEnd", (result) => {
-    if (result.winner.orientation === "left") {
-      setShowLeftWin(true);
-      setTimeout(() => setShowLeftWin(false), 5000);
-    } else if (result.winner.orientation === "right") {
-      setShowRightWin(true);
-      setTimeout(() => setShowRightWin(false), 5000);
-    }
-  }, []);
+  onGSI(
+    "roundEnd",
+    (result) => {
+      if (result.winner.orientation === "left") {
+        setShowLeftWin(true);
+        setTimeout(() => setShowLeftWin(false), 5000);
+      } else if (result.winner.orientation === "right") {
+        setShowRightWin(true);
+        setTimeout(() => setShowRightWin(false), 5000);
+      }
+    },
+    []
+  );
 
   const bombData = useBombTimer();
-  const plantTimer: Timer | null = bombData.state === "planting" ? { 
-    time: bombData.plantTime, 
-    active: true, 
-    side: bombData.player?.team.orientation || "right", 
-    player: bombData.player, 
-    type: "planting" 
-  } : null;
-  
-  const defuseTimer: Timer | null = bombData.state === "defusing" ? { 
-    time: bombData.defuseTime, 
-    active: true, 
-    side: bombData.player?.team.orientation || "left", 
-    player: bombData.player, 
-    type: "defusing" 
-  } : null;
+  const plantTimer: Timer | null =
+    bombData.state === "planting"
+      ? {
+          time: bombData.plantTime,
+          active: true,
+          side: bombData.player?.team.orientation || "right",
+          player: bombData.player,
+          type: "planting",
+        }
+      : null;
 
-  const tournamentName = tournament?.name || (match && "event" in match && (match as { event?: { name?: string } }).event?.name) || "CREADORES EN GUERRA #4";
-  const stageName = (match && "extra" in match && (match as { extra?: { stage?: string; phase?: string } }).extra?.stage) || (match && "extra" in match && (match as { extra?: { stage?: string; phase?: string } }).extra?.phase) || "FASE ONLINE";
+  const defuseTimer: Timer | null =
+    bombData.state === "defusing"
+      ? {
+          time: bombData.defuseTime,
+          active: true,
+          side: bombData.player?.team.orientation || "left",
+          player: bombData.player,
+          type: "defusing",
+        }
+      : null;
+
+  const tournamentName = tournament?.name || (match && "event" in match && (match as { event?: { name?: string } }).event?.name) || "PUNTO GAMERS EXPERIENCE";
 
   const amountOfMaps = (match && Math.floor(Number(match.matchType.substr(-1)) / 2) + 1) || 0;
 
@@ -104,7 +113,6 @@ const Matchbar = (props: IProps) => {
         {/* RECTÁNGULO 1 - Barra superior */}
         <div id="tournament_bar">
           <div className="tournament_name">{tournamentName.toUpperCase()}</div>
-          <div className="stage_name">{stageName.toUpperCase()}</div>
         </div>
 
         {/* RECTÁNGULO 2 - Barra principal (centro) */}
@@ -117,7 +125,7 @@ const Matchbar = (props: IProps) => {
 
         {/* RECTÁNGULO 3 - Equipo izquierdo */}
         <div className="team_box_wrapper left">
-          <div className="team_box left">
+          <div className={`team_box left ${left.side}`}>
             <div className="team_info_container">
               <div className="team_name_panel">{left.name?.toUpperCase() || "TEAM"}</div>
               <div className="series_wins_container">
@@ -137,7 +145,7 @@ const Matchbar = (props: IProps) => {
 
         {/* RECTÁNGULO 4 - Equipo derecho */}
         <div className="team_box_wrapper right">
-          <div className="team_box right">
+          <div className={`team_box right ${right.side}`}>
             <div className="score_logo_container">
               <div className="team_score">{right.score}</div>
               <TeamLogo team={right} height={50} width={50} />

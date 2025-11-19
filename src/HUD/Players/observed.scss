@@ -194,7 +194,8 @@
   &.T {
     .health_bar_container {
       .health_bar_background {
-        background: rgba(213, 178, 1, 1);
+        // background: rgba(213, 178, 1, 1);
+        background: rgba(220, 255, 25, 0.9);
       }
     }
   }
@@ -202,7 +203,8 @@
   &.CT {
     .health_bar_container {
       .health_bar_background {
-        background: rgba(91, 58, 187, 1);
+        // background: rgba(91, 58, 187, 1);
+        background: rgba(90, 25, 255, 0.9);
       }
     }
   }

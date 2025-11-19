@@ -46,25 +46,27 @@
     }
   }
 
-  &.CT {
+  /* Colores fijos por posición: izquierda = CT (azul), derecha = T (amarillo) */
+  &.left {
     .player {
       .player_panel .player_top_section {
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.9);
 
         .health_bar_background {
-          background: linear-gradient(180deg, rgba(91, 58, 187, 1) 0%, rgba(91, 58, 187, 0.3) 100%);
+          background: #000000;
+          background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(90, 25, 255, 0.9) 100%);
         }
       }
     }
   }
 
-  &.T {
+  &.right {
     .player {
       .player_panel .player_top_section {
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.9);
 
         .health_bar_background {
-          background: linear-gradient(180deg, rgba(213, 178, 1, 1) 0%, rgba(213, 178, 1, 0.3) 100%);
+          background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(220, 255, 25, 0.9) 100%);
         }
       }
     }

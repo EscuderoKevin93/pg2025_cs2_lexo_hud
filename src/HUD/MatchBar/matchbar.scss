@@ -137,8 +137,6 @@
   position: relative;
   width: 230px;
   height: 80px;
-  background: #5b3abb;
-  background: linear-gradient(90deg, rgba(91, 58, 187, 1) 0%, rgba(0, 0, 0, 1) 72%);
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -157,7 +155,7 @@
 
   .team_name_panel {
     color: white;
-    font-size: 33px;
+    font-size: 30px;
     font-weight: 700;
     font-family: "DrukCyr-Bold";
     text-transform: uppercase;
@@ -233,8 +231,6 @@
   position: relative;
   width: 230px;
   height: 80px;
-  background: #f0c941;
-  background: linear-gradient(270deg, rgba(240, 201, 65, 1) 0%, rgba(0, 0, 0, 1) 72%);
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -253,7 +249,7 @@
 
   .team_name_panel {
     color: white;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 700;
     font-family: "DrukCyr-Bold";
     text-transform: uppercase;
@@ -324,6 +320,19 @@
   }
 }
 
+/* Colores fijos por posición: izquierda = CT (azul), derecha = T (amarillo) */
+.team_box {
+  &.left {
+    background: #000000;
+    background: linear-gradient(270deg, rgba(0, 0, 0, 1) 30%, rgba(90, 25, 255, 0.7) 100%);
+  }
+
+  &.right {
+    background: #000000;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 1) 30%, rgba(220, 255, 25, 0.7) 100%);
+  }
+}
+
 /* Win Indicator - Posición fija para fácil edición */
 .win_indicator {
   position: fixed;
@@ -362,7 +371,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 150px;
+    font-size: 130px;
     font-weight: 900;
     font-family: "DrukCyr-Bold";
     color: rgba(255, 255, 255, 0.08);
