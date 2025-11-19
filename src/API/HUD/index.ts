@@ -1,15 +1,9 @@
 import { CSGOGSI, Player, PlayerExtension } from 'csgogsi';
-import api, { isDev, variant } from '..';
+import api, { isDev } from '..';
 
 export const hudIdentity = {
 	name: '',
 	isDev
-};
-
-export const getVariant = (): string => {
-	// La variante se lee del query parameter según la documentación oficial
-	// https://guide.lhm.gg/docs/spec/rest-api/huds/#hud-variants
-	return variant !== "default" ? variant : '';
 };
 
 export const GSI = new CSGOGSI();
@@ -83,7 +77,7 @@ const loadAvatarURL = (player: Player) => {
                 }
 
 
-                avatars[player.steamid].url = result.custom || result.steam;
+                avatars[player.steamid].url = result.custom || result.custom;
                 resolve(result.custom || result.custom);
             }).catch(() => {
                 delete avatars[player.steamid];

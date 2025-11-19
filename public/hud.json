@@ -1,12 +1,11 @@
 {
-  "name": "PuntoGamers CEG #4 HUD - Online",
+  "name": "PuntoGamers CEG #4 HUD - CEG1",
   "version": "1.0",
   "author": "EscuderoKevin",
   "legacy": false,
   "radar": true,
   "killfeed": true,
   "game": "cs2",
-  "variants": ["HudOnline", "HudPresencial", "TodasLasCamaras", "CamarasTT", "CamarasCT", "Replay", "HudCEG1", "HudCEG2", "ScoreBoard"],
   "boltobserv": {
     "css": false,
     "maps": false
